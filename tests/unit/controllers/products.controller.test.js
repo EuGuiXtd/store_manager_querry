@@ -46,50 +46,37 @@ describe('Teste de unidade do Controller', function () {
     });
 
     it('ao passar um id inválido deve retornar um erro', async function () {
-      // Arrange
       const res = {};
       const req = {
-        params: { id: 'abc' }, // passamos aqui um id inválido para forçar o erro esperado
+        params: { id: 'abc' },
       };
 
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
-      // Definimos o dublê do service retornando o contrato definido.
       sinon
         .stub(productsService, 'getProductsById')
         .resolves({ type: 'INVALID_VALUE', message: '"id" must be a number' });
 
-      // Act
       await productsController.getProductsById(req, res);
 
-      // Assert
-      // Avaliamos se chamou `res.status` com o valor 422
       expect(res.status).to.have.been.calledWith(404);
-      // Avaliamos se chamou `res.status` com a mensagem esperada
       expect(res.json).to.have.been.calledWith( {message:  '"id" must be a number'} );
     });
 
     it('ao passar um id que não existe no banco deve retornar um erro', async function () {
-      // Arrange
       const res = {};
       const req = {
-        params: { id: 9999 }, // passamos aqui um id fictício para forçar o erro esperado
+        params: { id: 9999 },
       };
 
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
-      // Definimos o dublê do service retornando o contrato definido para esse cenário
       sinon
         .stub(productsService, 'getProductsById')
         .resolves({ type: 'PRODUCT_NOT_FOUND', message: 'Product not found' });
 
-      // Act
       await productsController.getProductsById(req, res);
-
-      // Assert
-      // Avaliamos se chamou `res.status` com o valor 404
       expect(res.status).to.have.been.calledWith(404);
-      // Avaliamos se chamou `res.status` com a mensagem esperada
       expect(res.json).to.have.been.calledWith({ message: 'Product not found'} );
     });
   });
