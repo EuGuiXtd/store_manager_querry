@@ -35,9 +35,18 @@ const attProduct = async (productId, att) => {
   return { type: null, message: newProduct };
 };
 
+const deleteProduct = async (productId) => {
+  const product = await productsModel.getProductsById(productId);
+  if (!product) return { type: 'PRODUCT_NOT_FOUND', message: 'Product not found' };
+
+  await productsModel.deleteProduct(productId);
+  return { type: null, message: null };
+};
+
 module.exports = {
   getAllProducts,
   getProductsById,
   createProduct,
   attProduct,
+  deleteProduct,
 };

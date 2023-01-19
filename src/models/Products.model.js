@@ -29,9 +29,15 @@ const attProduct = async (productId, att) => connection.execute(
   [att, productId],
 );
 
+const deleteProduct = async (productId) => connection.execute(
+  'DELETE FROM StoreManager.products where id = ?',
+  [productId],
+);
+
 module.exports = {
   getAllProducts,
   getProductsById,
   insert,
   attProduct,
+  deleteProduct,
 };

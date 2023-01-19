@@ -27,9 +27,12 @@ const newProduct = {
   "name": "Manopla Do Infinito"
 }
 
+const number = 12343443663
+
 module.exports = {
   products,
   product,
   addNewProduct,
   newProduct,
+  number,
 };
