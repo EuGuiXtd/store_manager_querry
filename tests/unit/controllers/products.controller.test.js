@@ -5,7 +5,7 @@ const { expect } = chai;
 chai.use(sinonChai);
 const productsService = require('../../../src/services/Products.service')
 const productsController = require('../../../src/controllers/Products.controllers')
-const { products,product } = require('../models/mocks/products.model.mock');
+const { products,product,newProduct,addNewProduct } = require('../models/mocks/products.model.mock');
 
 describe('Teste de unidade do Controller', function () {
   describe('Listando os produtos', function () {
@@ -79,6 +79,59 @@ describe('Teste de unidade do Controller', function () {
       expect(res.status).to.have.been.calledWith(404);
       expect(res.json).to.have.been.calledWith({ message: 'Product not found'} );
     });
+  });
+
+  describe('Adicionando Um Novo Produto', function () { 
+    it('Testa se é possivel adicionar um produto', async function () {
+      const res = {};
+      const req = {
+        body: { "name": "Manopla Do Infinito" },
+      }
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productsService, 'createProduct')
+        .resolves({ type: null, message: newProduct })
+
+      await productsController.createProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(201);
+      expect(res.json).to.have.been.calledWith(newProduct);
+    })
+
+    it('teste se no caso de um nome com menos que 5 caracteres retorna um erro', async function () {
+      const res = {};
+      const req = {
+        body: { "name": "Mano" },
+      }
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productsService, 'createProduct')
+        .resolves({ message: '"name" length must be at least 5 characters long' })
+
+      await productsController.createProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(422);
+      expect(res.json).to.have.been.calledWith({ message: '"name" length must be at least 5 characters long' });
+    })
+
+    it('testa se envia um erro ao tentar cadastrar um produto sem nome', async function () {
+      const res = {};
+      const req = {
+        body: { "name": "" },
+      }
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productsService, 'createProduct')
+        .resolves({ message: '"name" is required' })
+
+      await productsController.createProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(400);
+      expect(res.json).to.have.been.calledWith({ message: '"name" is required' })
+    })
   });
 
   afterEach(function () {

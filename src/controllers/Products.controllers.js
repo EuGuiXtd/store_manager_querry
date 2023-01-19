@@ -22,6 +22,7 @@ const createProduct = async (req, res) => {
   const { name } = body;
 
   const { type, message } = await productsService.createProduct(name);
+  console.log(type);
 
   if (type) return res.status(400).json({ message: 'Houve um erro durante a criação' });
 
