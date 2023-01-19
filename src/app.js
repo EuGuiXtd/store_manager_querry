@@ -22,6 +22,10 @@ app.post('/products', middlewaresProducts, productsController.createProduct);
 
 app.post('/sales', saleController.createSale);
 
+app.get('/sales', saleController.getAllSales);
+
+app.get('/sales/:id', saleController.getSaleById);
+
 // não remova essa exportação, é para o avaliador funcionar
 // você pode registrar suas rotas normalmente, como o exemplo acima
 // você deve usar o arquivo index.js para executar sua aplicação 
