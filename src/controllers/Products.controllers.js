@@ -28,8 +28,21 @@ const createProduct = async (req, res) => {
   res.status(201).json(message);
 };
 
+const attProduct = async (req, res) => {
+  const { body } = req;
+  const { id } = req.params;
+  const { name } = body;
+
+  const { message, status } = await productsService.attProduct(id, name);
+
+  if (status) {
+    res.status(status).json({ message });
+  } else { res.status(200).json(message); }
+};
+
 module.exports = {
   getAllProducts,
   getProductsById,
   createProduct,
+  attProduct,
 };

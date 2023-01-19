@@ -23,8 +23,21 @@ const createProduct = async (name) => {
   return { type: null, message: newProduct };
 };
 
+const attProduct = async (productId, att) => {
+  const error = await validations.validateName(att);
+  if (error) return error;
+
+  const product = await productsModel.getProductsById(productId);
+  if (!product) return { status: 404, message: 'Product not found' };
+  
+  await productsModel.attProduct(productId, att);
+  const newProduct = await productsModel.getProductsById(productId);
+  return { type: null, message: newProduct };
+};
+
 module.exports = {
   getAllProducts,
   getProductsById,
   createProduct,
+  attProduct,
 };

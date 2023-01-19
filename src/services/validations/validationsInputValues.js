@@ -8,6 +8,20 @@ const validateId = (id) => {
   return { type: null, message: '' };
 };
 
+const validateName = (name) => {
+  const { error } = schemas.nameSchema.validate(name);
+
+  if (error) {
+    let status;
+    if (error.details[0].type === 'string.min') {
+      status = 422;
+    } else {
+      status = 400;
+    }
+    return { status, message: error.message };
+  }
+};
+
 const validateSale = (body) => {
   const arraySaleSchema = Joi.array().items(schemas.SaleSchema);
   const { error } = arraySaleSchema.validate(body);
@@ -26,4 +40,5 @@ const validateSale = (body) => {
 module.exports = {
   validateId,
   validateSale,
+  validateName,
 };
