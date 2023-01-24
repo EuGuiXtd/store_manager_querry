@@ -5,7 +5,8 @@ const { expect } = chai;
 chai.use(sinonChai);
 const productsService = require('../../../src/services/Products.service')
 const productsController = require('../../../src/controllers/Products.controllers')
-const { products,product,newProduct,addNewProduct } = require('../models/mocks/products.model.mock');
+const { products, product, newProduct, addNewProduct } = require('../models/mocks/products.model.mock');
+const validations = require('../../../src/services/validations/validationsInputValues');
 
 describe('Teste de unidade do Controller', function () {
   describe('Listando os produtos', function () {
@@ -107,8 +108,10 @@ describe('Teste de unidade do Controller', function () {
 
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
+      const { name } = req.body
+      const error = await validations.validateName(name)
       sinon.stub(productsService, 'createProduct')
-        .resolves({ message: '"name" length must be at least 5 characters long' })
+        .resolves(error)
 
       await productsController.createProduct(req, res);
 
@@ -119,13 +122,15 @@ describe('Teste de unidade do Controller', function () {
     it('testa se envia um erro ao tentar cadastrar um produto sem nome', async function () {
       const res = {};
       const req = {
-        body: { "name": "" },
+        body: {},
       }
 
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
+      const { name } = req.body
+      const error = await validations.validateName(name)
       sinon.stub(productsService, 'createProduct')
-        .resolves({ message: '"name" is required' })
+        .resolves(error)
 
       await productsController.createProduct(req, res);
 

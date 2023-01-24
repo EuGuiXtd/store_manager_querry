@@ -17,6 +17,9 @@ const getProductsById = async (productid) => {
 };
 
 const createProduct = async (name) => {
+  const error = await validations.validateName(name);
+  if (error) return error;
+
   const newProductId = await productsModel.insert(name);
   const newProduct = await productsModel.getProductsById(newProductId);
 

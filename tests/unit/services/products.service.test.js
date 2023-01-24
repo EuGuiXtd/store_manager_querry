@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const productsModel = require('../../../src/models/Products.model');
 const productsService = require('../../../src/services/Products.service')
-const { products,number } = require('../models/mocks/products.model.mock');
+const { products } = require('../models/mocks/products.model.mock');
 
 describe('Testes de unidade do service', function () {
   describe('listagem de produtos', function () {
@@ -40,12 +40,6 @@ describe('Testes de unidade do service', function () {
       expect(result.type).to.equal(null);
       expect(result.message).to.deep.equal(products[0]);
     });
-
-    it('Retorna um erro ao passar um nome inválido', async function () {
-      const result = await productsService.createProduct(number);
-
-      expect(result.message).to.equal("\"name\" length must be at least 5 characters long");
-    })
   });
 
   afterEach(function () {

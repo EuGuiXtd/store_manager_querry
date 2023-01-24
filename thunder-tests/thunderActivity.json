@@ -4,13 +4,18 @@
     "colId": "history",
     "containerId": "",
     "name": "http://localhost:3000/products",
-    "url": "http://localhost:3000/products/1",
-    "method": "DELETE",
+    "url": "http://localhost:3000/products",
+    "method": "POST",
     "sortNum": 0,
     "created": "2023-01-13T20:54:02.888Z",
-    "modified": "2023-01-19T21:16:51.597Z",
+    "modified": "2023-01-24T12:58:56.708Z",
     "headers": [],
     "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"name\": \"Prererte\"\n}",
+      "form": []
+    },
     "tests": []
   }
 ]

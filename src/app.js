@@ -4,7 +4,6 @@ const app = express();
 
 const productsController = require('./controllers/Products.controllers');
 const saleController = require('./controllers/Sales.controller');
-const middlewaresProducts = require('./middlewares/middlewaresProducts');
 /* const middlewaresSale = require('./middlewares/middlewaresSales'); */
 
 app.use(express.json());
@@ -18,7 +17,7 @@ app.get('/products/:id', productsController.getProductsById);
 
 app.get('/products', productsController.getAllProducts);
 
-app.post('/products', middlewaresProducts, productsController.createProduct);
+app.post('/products', productsController.createProduct);
 
 app.post('/sales', saleController.createSale);
 

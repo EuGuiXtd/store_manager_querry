@@ -21,12 +21,11 @@ const createProduct = async (req, res) => {
   const { body } = req;
   const { name } = body;
 
-  const { type, message } = await productsService.createProduct(name);
-  console.log(type);
+  const { status, message } = await productsService.createProduct(name);
 
-  if (type) return res.status(400).json({ message: 'Houve um erro durante a criação' });
-
-  res.status(201).json(message);
+  if (status) {
+    res.status(status).json({ message });
+  } else { res.status(201).json(message); }
 };
 
 const attProduct = async (req, res) => {
