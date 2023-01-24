@@ -20,7 +20,7 @@ const getProductsById = async (req, res) => {
 const createProduct = async (req, res) => {
   const { body } = req;
   const { name } = body;
-
+  console.log(name);
   const { status, message } = await productsService.createProduct(name);
 
   if (status) {
